@@ -40,11 +40,13 @@ import java.io.IOException;
 public class ThConfigurationBuilder extends Builder {
 
     private final String name;
+    private final Fruit fruit;
 
     // Fields in config.jelly must match the parameter names in the "DataBoundConstructor"
     @DataBoundConstructor
-    public ThConfigurationBuilder(String name) {
+    public ThConfigurationBuilder(String name, Fruit fruit) {
         this.name = name;
+        this.fruit = fruit;
     }
 
     /**
@@ -53,23 +55,15 @@ public class ThConfigurationBuilder extends Builder {
     public String getName() {
         return name;
     }
-
     public Fruit getFruit() {
-        // Could return currently configured/saved item here to initialized form with this data
-        return null;
-    }
-
-    public DescriptorExtensionList<Fruit,Descriptor<Fruit>> getFruitDescriptors() {
-        return Hudson.getInstance().<Fruit,Descriptor<Fruit>>getDescriptorList(Fruit.class);
+        return fruit;
     }
 
     public static class Fruit implements ExtensionPoint, Describable<Fruit> {
         protected String name;
         private Fruit(String name) {
-            
             this.name = name;
         }
-
         public Descriptor<Fruit> getDescriptor() {
             return Hudson.getInstance().getDescriptor(getClass());
         }
@@ -90,6 +84,9 @@ public class ThConfigurationBuilder extends Builder {
             super("Apple");
             this.seeds = seeds;
         }
+        public int getSeeds() {
+            return seeds;
+        }
         @Extension
         public static final FruitDescriptor D = new FruitDescriptor(Apple.class);
     }
@@ -99,6 +96,9 @@ public class ThConfigurationBuilder extends Builder {
         @DataBoundConstructor public Banana(boolean yellow) {
             super("Banana");
             this.yellow = yellow;
+        }
+        public boolean isYellow() {
+            return yellow;
         }
         @Extension
         public static final FruitDescriptor D = new FruitDescriptor(Banana.class);
@@ -188,6 +188,10 @@ public class ThConfigurationBuilder extends Builder {
          */
         public boolean useFrench() {
             return useFrench;
+        }
+
+        public DescriptorExtensionList<Fruit,Descriptor<Fruit>> getFruitDescriptors() {
+            return Hudson.getInstance().<Fruit,Descriptor<Fruit>>getDescriptorList(Fruit.class);
         }
     }
 }
