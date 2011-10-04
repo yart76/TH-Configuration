@@ -13,13 +13,13 @@
   -->
   <f:section title="Hello World Builder">
     <!--
-      optional @help points to the help document HTML. /plugin/nokia-th-configuration-plugin
+      optional @help points to the help document HTML. /plugin/th-configuration-plugin
       is mapped to our webapp/ directory, so this is a convenient way to serve
       static resources.
     -->
     <f:entry title="French"
       description="Check if we should say hello in French"
-      help="/plugin/nokia-th-configuration-plugin/help-globalConfig.html">
+      help="/plugin/th-configuration-plugin/help-globalConfig.html">
       <!--
         we'll have on input field. In HTML, single "namespace" is shared between
         all form components in one <form>, so we need to choose a name that doesn't
