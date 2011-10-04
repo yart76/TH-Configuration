@@ -1,0 +1,32 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+  <!--
+    This jelly script is used for per-project configuration.
+
+    See global.jelly for a general discussion about jelly script.
+  -->
+
+  <!--
+    Creates a text field that shows the value of the "name" property.
+    When submitted, it will be passed to the corresponding constructor parameter.
+  -->
+  <f:entry title="Name" field="name">
+    <f:textbox />
+  </f:entry>
+
+      <j:set var="currentFruit" value="${it.fruit}"/>
+        <!-- getJSONObject("fruit") in java code gets data for this block -->
+        <!-- A @DataBoundConstructor with parameter "Fruit fruit" can also be used -->
+        <f:dropdownList name="fruit" title="Fruits">
+          <!-- Loop through available fruit types -->
+          <j:forEach var="descriptor" items="${it.fruitDescriptors}" varStatus="loop">
+              Descriptor name is ${descriptor.displayName}
+            <!-- Set "fruit" only if it matches this descriptor -->
+            <j:set var="fruit" value="${descriptor==currentFruit.descriptor?currentFruit:null}"/>
+            <f:dropdownListBlock title="${descriptor.displayName}" value="${loop.index}"
+                                 selected="${fruit!=null}" staplerClass="${descriptor.clazz.name}">
+              <!-- Include config.jelly for this fruit type -->
+              <st:include page="${descriptor.configPage}" from="${descriptor}"/>
+            </f:dropdownListBlock>
+          </j:forEach>
+        </f:dropdownList>
+</j:jelly>
