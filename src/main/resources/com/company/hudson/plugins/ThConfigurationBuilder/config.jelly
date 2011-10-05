@@ -13,20 +13,6 @@
     <f:textbox />
   </f:entry>
 
-      <j:set var="currentFruit" value="${it.fruit}"/>
-        <!-- getJSONObject("fruit") in java code gets data for this block -->
-        <!-- A @DataBoundConstructor with parameter "Fruit fruit" can also be used -->
-        <f:dropdownList name="fruit" title="Fruits">
-          <!-- Loop through available fruit types -->
-          <j:forEach var="descriptor" items="${it.fruitDescriptors}" varStatus="loop">
-              Descriptor name is ${descriptor.displayName}
-            <!-- Set "fruit" only if it matches this descriptor -->
-            <j:set var="fruit" value="${descriptor==currentFruit.descriptor?currentFruit:null}"/>
-            <f:dropdownListBlock title="${descriptor.displayName}" value="${loop.index}"
-                                 selected="${fruit!=null}" staplerClass="${descriptor.clazz.name}">
-              <!-- Include config.jelly for this fruit type -->
-              <st:include page="${descriptor.configPage}" from="${descriptor}"/>
-            </f:dropdownListBlock>
-          </j:forEach>
-        </f:dropdownList>
+  <f:dropdownDescriptorSelector title="Fruit" field="fruit" descriptors="${descriptor.fruitDescriptors}" />
+
 </j:jelly>
